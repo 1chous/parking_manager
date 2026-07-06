@@ -1,36 +1,10 @@
-package com.vmi.parkink_manager.model;
+package com.vmi.parkink_manager.dto;
 
-import jakarta.persistence.*;
-
-import java.time.LocalDateTime;
-import java.util.UUID;
-
-
-@Entity
-@Table(name = "park_zone")
-public class ParkZone {
-    @Id
-    private UUID id;
-
-    @Column(nullable = false)
+public class ZoneCreateDto {
     private String name;
-
-    @Column(nullable = false)
     private int capacity;
-
-    @Column(nullable = false)
     private int cost;
-
     private String imageUrl;
-
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
