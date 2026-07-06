@@ -31,6 +31,12 @@ dependencies {
 	testAnnotationProcessor("org.projectlombok:lombok")
 
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.3")
+
+	implementation("org.springframework.boot:spring-boot-starter-actuator")
+	implementation("io.micrometer:micrometer-registry-prometheus")
+
+	implementation("org.springframework.boot:spring-boot-starter-flyway")
+	implementation("org.flywaydb:flyway-database-postgresql")
 }
 
 tasks.withType<Test> {
