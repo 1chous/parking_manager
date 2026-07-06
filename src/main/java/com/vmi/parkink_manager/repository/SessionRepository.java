@@ -8,4 +8,6 @@ import java.util.UUID;
 
 public interface SessionRepository extends JpaRepository<ParkingSession, UUID> {
     List<ParkingSession> findByParkingZoneId(UUID parkingZoneId);
+
+    List<ParkingSession> findByVehiclePlate(String vehiclePlate);
 }
