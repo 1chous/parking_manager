@@ -1,6 +1,7 @@
 package com.vmi.parkink_manager.service;
 
 import com.vmi.parkink_manager.dto.SessionCreateDto;
+import com.vmi.parkink_manager.dto.SessionUpdateDto;
 import com.vmi.parkink_manager.model.ParkZone;
 import com.vmi.parkink_manager.model.ParkingSession;
 import com.vmi.parkink_manager.repository.SessionRepository;
@@ -64,4 +65,29 @@ public class SessionService {
         // save bill
         return session;
     }
+
+    public ParkingSession getById(UUID id) {
+        return sessionRepository.findById(id).orElseThrow(() ->
+                new RuntimeException("Некорректные параметры или неверный zone_id."));
+    }
+
+    public ParkingSession update(UUID id, SessionUpdateDto dto) {
+        ParkingSession parkingSession = sessionRepository.findById(id).orElseThrow(
+                () -> new RuntimeException("Парковочная сессия не найдена.")
+        );
+
+        if (dto.getIsPaid() && !parkingSession.getIsPayed()) {
+            parkingSession.setExitTime(dto.getExitTime());
+        }
+        parkingSession.setIsPayed(dto.getIsPaid());
+        if (dto.getVehiclePlate() != null) {
+            parkingSession.setVehiclePlate(dto.getVehiclePlate());
+        }
+        return sessionRepository.save(parkingSession);
+    }
+
+    public void delete(UUID id) {
+        sessionRepository.deleteById(id);
+    }
+
 }
