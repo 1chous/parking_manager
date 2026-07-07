@@ -17,6 +17,7 @@ import java.util.UUID;
 public class SessionService {
     private final SessionRepository sessionRepository;
     private final ZoneRepository zoneRepository;
+
     public SessionService(SessionRepository sessionRepository, ZoneRepository zoneRepository) {
         this.sessionRepository = sessionRepository;
         this.zoneRepository = zoneRepository;
@@ -46,15 +47,7 @@ public class SessionService {
         }
         ParkingSession session = activeSessions.get(0);
         session.setExitTime(LocalDateTime.now());
-        long minutes = Duration.between(session.getEntryTime(), session.getExitTime()).toMinutes();
-        if (minutes == 0){
-            minutes = 1;
-        }
-        if (minutes < 0){
-            throw new RuntimeException("Unrealistic exit/entry time");
-        }
-        long hours = (long) Math.ceil((double) minutes / 60.0);
-        double totalCost = hours * session.getParkingZone().getCost();
+
 
         // PaymentBill bill = new PaymentBill();
         // bill.setTotal_cost(totalCost);
@@ -96,4 +89,7 @@ public class SessionService {
         sessionRepository.deleteById(id);
     }
 
+    public List<ParkingSession> getAll() {
+        return sessionRepository.findAll();
+    }
 }
