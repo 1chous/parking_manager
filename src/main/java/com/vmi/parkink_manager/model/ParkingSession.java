@@ -22,17 +22,8 @@ public class ParkingSession {
 
     private LocalDateTime exitTime;
 
-    private double cost;
-
     @Column(nullable = false)
-    private Boolean paymentStatus = false;
-
-    public double getCost() {
-        return cost;
-    }
-    public void setCost(double cost) {
-        this.cost = cost;
-    }
+    private Boolean isPayed = false;
 
     public UUID getId() {
         return id;
@@ -74,11 +65,11 @@ public class ParkingSession {
         this.exitTime = exitTime;
     }
 
-    public Boolean getPaymentStatus() {
-        return paymentStatus;
+    public Boolean getIsPayed() {
+        return isPayed;
     }
 
-    public void setPaymentStatus(Boolean paymentStatus) {
-        this.paymentStatus = paymentStatus;
+    public void setIsPayed(Boolean isPayed) {
+        this.isPayed = isPayed;
     }
 }
