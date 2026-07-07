@@ -4,15 +4,15 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class SessionCreateDto {
-    private UUID parkingZone;
+    private UUID parkingZoneId;
     private String vehiclePlate;
 
     public UUID getParkingZone() {
-        return parkingZone;
+        return parkingZoneId;
     }
 
     public void setParkingZone(UUID parkingZone) {
-        this.parkingZone = parkingZone;
+        this.parkingZoneId = parkingZone;
     }
 
     public String getVehiclePlate() {
