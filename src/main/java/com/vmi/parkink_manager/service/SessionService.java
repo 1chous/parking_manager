@@ -71,6 +71,10 @@ public class SessionService {
                 new RuntimeException("Некорректные параметры или неверный zone_id."));
     }
 
+    public List<ParkingSession> findByParkingZoneId(UUID zoneId) {
+        return sessionRepository.findByParkingZoneId(zoneId);
+    }
+
     public ParkingSession update(UUID id, SessionUpdateDto dto) {
         ParkingSession parkingSession = sessionRepository.findById(id).orElseThrow(
                 () -> new RuntimeException("Парковочная сессия не найдена.")
