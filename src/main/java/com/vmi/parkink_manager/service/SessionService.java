@@ -30,12 +30,13 @@ public class SessionService {
         session.setParkingZone(zone);
         session.setVehiclePlate(dto.getVehiclePlate());
         session.setEntryTime(LocalDateTime.now());
-        session.setPaymentStatus(false);
+        session.setIsPayed(false);
         sessionRepository.save(session);
         return session;
     }
 
-    public ParkingSession exit(String vehiclePlate){
+    public ParkingSession exit(String vehiclePlate)
+    {
         List<ParkingSession> activeSessions = sessionRepository.findByVehiclePlate(vehiclePlate);
         if (activeSessions.isEmpty()){
             throw new RuntimeException("Vehicle not found");
@@ -52,10 +53,15 @@ public class SessionService {
         long hours = (long) Math.ceil((double) minutes / 60.0);
         double totalCost = hours * session.getParkingZone().getCost();
 
-        session.setPaymentStatus(true);
-        session.setCost(totalCost);
+        // PaymentBill bill = new PaymentBill();
+        // bill.setTotal_cost(totalCost);
+        // логика оплаты счета
+        // по идее то что сессия оплачена надо сделать в другом методе,
+        // но пока наверное норм
+        session.setIsPayed(true);
 
         sessionRepository.save(session);
+        // save bill
         return session;
     }
 }
