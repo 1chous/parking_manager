@@ -6,12 +6,14 @@ import com.vmi.parkink_manager.model.ParkZone;
 import com.vmi.parkink_manager.model.ParkingSession;
 import com.vmi.parkink_manager.repository.SessionRepository;
 import com.vmi.parkink_manager.repository.ZoneRepository;
+import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+@Service
 public class SessionService {
     private final SessionRepository sessionRepository;
     private final ZoneRepository zoneRepository;

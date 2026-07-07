@@ -6,6 +6,7 @@ import com.vmi.parkink_manager.repository.SessionRepository;
 import com.vmi.parkink_manager.repository.ZoneRepository;
 import com.vmi.parkink_manager.model.ParkZone;
 import jakarta.transaction.Transactional;
+import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -14,6 +15,7 @@ import java.nio.file.Files;
 import java.util.List;
 import java.util.UUID;
 
+@Service
 public class ZoneService {
     private final ZoneRepository zoneRepository;
     private final SessionRepository sessionRepository;
