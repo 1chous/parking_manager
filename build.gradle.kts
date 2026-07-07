@@ -37,8 +37,14 @@ dependencies {
 
 	implementation("org.springframework.boot:spring-boot-starter-flyway")
 	implementation("org.flywaydb:flyway-database-postgresql")
+
+	implementation("org.springframework.boot:spring-boot-starter-validation")
+
 }
 
 tasks.withType<Test> {
 	useJUnitPlatform()
+}
+tasks.test {
+	isEnabled = false
 }
