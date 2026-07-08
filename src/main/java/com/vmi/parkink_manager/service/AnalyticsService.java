@@ -58,7 +58,6 @@ public class AnalyticsService {
             answer.add(response);
         }
         return answer;
-        
     }
 
     private double calcTotalCost(ParkingSession session, long deltaInMinutes) {
