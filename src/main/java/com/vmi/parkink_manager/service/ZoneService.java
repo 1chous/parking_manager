@@ -46,7 +46,6 @@ public class ZoneService {
 
         parkZone.setCapacity(dto.getCapacity());
         parkZone.setCost(dto.getCost());
-        parkZone.setImageUrl("/api/v1/zones/" + parkZone.getId() + "/image");
         zoneRepository.save(parkZone);
         return parkZone;
     }
@@ -57,7 +56,6 @@ public class ZoneService {
         parkZone.setName(dto.getName());
         parkZone.setCost(dto.getCost());
         parkZone.setCapacity(dto.getCapacity());
-        parkZone.setImageUrl(dto.getImageUrl());
 
         zoneRepository.save(parkZone);
         return parkZone;
