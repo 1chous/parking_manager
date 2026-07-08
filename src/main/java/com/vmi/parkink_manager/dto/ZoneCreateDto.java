@@ -4,7 +4,6 @@ public class ZoneCreateDto {
     private String name;
     private int capacity;
     private int cost;
-    private String imageUrl;
 
     public String getName() {
         return name;
@@ -28,13 +27,5 @@ public class ZoneCreateDto {
 
     public void setCost(int cost) {
         this.cost = cost;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
     }
 }
