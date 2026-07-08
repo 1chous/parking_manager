@@ -25,7 +25,7 @@ public class SessionService {
 
     public ParkingSession newEntry(SessionCreateDto dto){
         ParkZone zone = zoneRepository.findById(dto.getParkingZone()).orElseThrow(() -> new RuntimeException("Zone not found"));
-        int activeSessions = sessionRepository.findByParkingZoneId(zone.getId()).size();
+        int activeSessions = sessionRepository.countActiveSessionsByZoneId(zone.getId());
         if (activeSessions >= zone.getCapacity()){
             throw new RuntimeException("Zone is full");
         }
@@ -41,7 +41,7 @@ public class SessionService {
 
     public ParkingSession exit(String vehiclePlate)
     {
-        List<ParkingSession> activeSessions = sessionRepository.findByVehiclePlate(vehiclePlate);
+        List<ParkingSession> activeSessions = sessionRepository.findActiveByVehiclePlate(vehiclePlate);
         if (activeSessions.isEmpty()){
             throw new RuntimeException("Vehicle not found");
         }
