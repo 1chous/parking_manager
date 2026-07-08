@@ -10,11 +10,15 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     volumes:
       - pgdata:/var/lib/postgresql/data
+    ulimits:
+      nofile:
+        soft: 65535
+        hard: 65535
     deploy:
       resources:
         limits:
           memory: 1G
-          cpus: "0.5"
+          cpus: "2.0"
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 10s
@@ -36,16 +40,24 @@ services:
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
       SPRING_JPA_HIBERNATE_DDL_AUTO: validate
+      JAVA_TOOL_OPTIONS: "-Xms2g -Xmx2g -XX:+UseG1GC -XX:MaxGCPauseMillis=100"
     depends_on:
       db:
         condition: service_healthy
     volumes:
-      - uploads_data:/app/uploads
+      - /dev/shm/uploads:/app/uploads
+    ulimits:
+      nofile:
+        soft: 65535
+        hard: 65535
+    sysctls:
+      net.core.somaxconn: 8192
+      net.ipv4.tcp_tw_reuse: 1
     deploy:
       resources:
         limits:
           memory: 3G
-          cpus: "4"
+          cpus: "4.0"
     healthcheck:
       test: ["CMD-SHELL", "wget -q --spider http://localhost:8080/actuator/health || exit 1"]
       interval: 10s
@@ -107,4 +119,3 @@ services:
 
 volumes:
   pgdata:
-  uploads_data:
