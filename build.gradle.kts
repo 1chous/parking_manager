@@ -40,6 +40,9 @@ dependencies {
 
 	implementation("org.springframework.boot:spring-boot-starter-validation")
 
+	// это для документации со сваггером
+	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0")
+
 }
 
 tasks.withType<Test> {

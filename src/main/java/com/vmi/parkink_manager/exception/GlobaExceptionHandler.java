@@ -1,6 +1,7 @@
 package com.vmi.parkink_manager.exception;
 
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -18,23 +19,6 @@ public class GlobaExceptionHandler {
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<Map<String, Object>> handleRuntimeException(RuntimeException ex) {
         HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
-        Map<String, Object> body = createErrorBody(status, ex.getMessage());
-        return ResponseEntity.status(status).body(body);
-    }
-
-    // 404
-    @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<Map<String, Object>> handleNotFoundException(NotFoundException ex) {
-        HttpStatus status = HttpStatus.NOT_FOUND;
-        Map<String, Object> body = createErrorBody(status, ex.getMessage());
-
-        return ResponseEntity.status(status).body(body);
-    }
-
-    // 400
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<Map<String, Object>> handleValidationException(IllegalArgumentException ex) {
-        HttpStatus status = HttpStatus.BAD_REQUEST;
         Map<String, Object> body = createErrorBody(status, ex.getMessage());
         return ResponseEntity.status(status).body(body);
     }

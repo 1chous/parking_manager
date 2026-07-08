@@ -6,7 +6,6 @@ import com.vmi.parkink_manager.repository.SessionRepository;
 import com.vmi.parkink_manager.repository.ZoneRepository;
 import com.vmi.parkink_manager.model.ParkZone;
 import jakarta.transaction.Transactional;
-import jakarta.xml.bind.ValidationException;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -33,14 +32,14 @@ public class ZoneService {
     }
 
     public ParkZone getById(UUID id){
-        return zoneRepository.findById(id).orElseThrow(() -> new RuntimeException("Zone not founded"));
+        return zoneRepository.findById(id).orElseThrow(() -> new RuntimeException("Зона не найдена"));
     }
 
     public ParkZone zoneCreate(ZoneCreateDto dto){
         ParkZone parkZone = new ParkZone();
         parkZone.setId(UUID.randomUUID());
-        if (dto.getName() == null) {
-            throw new IllegalArgumentException("Ошибка валидации параметров запроса.");
+        if (dto.getName() == null || dto.getName().isEmpty()) {
+            throw new RuntimeException("Ошибка валидации параметров запроса.");
         }
         parkZone.setName(dto.getName());
 
