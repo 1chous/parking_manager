@@ -1,4 +1,4 @@
-FROM gradle:9.5.1-jdk17-alpine AS build
+FROM gradle:9.5.1-jdk21-alpine AS build
 WORKDIR /app
 
 COPY build.gradle.kts settings.gradle.kts ./
@@ -13,7 +13,7 @@ COPY src ./src
 
 RUN gradle bootJar --no-daemon
 
-FROM eclipse-temurin:17-jre-focal
+FROM eclipse-temurin:21-jre-noble
 WORKDIR /app
 
 COPY --from=build /app/build/libs/*.jar app.jar
