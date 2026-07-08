@@ -50,6 +50,9 @@ services:
       nofile:
         soft: 65535
         hard: 65535
+    sysctls:
+      net.core.somaxconn: 8192
+      net.ipv4.tcp_tw_reuse: 1
     deploy:
       resources:
         limits:
