@@ -61,7 +61,7 @@ public class ZoneController {
     @GetMapping("/{zone_id}/image")
     public void getImage(@PathVariable("zone_id") UUID id, HttpServletResponse response) throws IOException {
         byte[] image = zoneService.getImage(id);
-        response.setContentType("image/png");
+        response.setContentType(MediaType.IMAGE_JPEG_VALUE);
         response.getOutputStream().write(image);
         response.getOutputStream().flush();
     }

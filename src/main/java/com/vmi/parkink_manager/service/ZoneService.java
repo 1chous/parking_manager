@@ -20,7 +20,7 @@ import java.util.UUID;
 public class ZoneService {
     private final ZoneRepository zoneRepository;
     private final SessionRepository sessionRepository;
-    private final String uploadDir = "uploads/";
+    private final String uploadDir = "/app/uploads/";
 
 
     public ZoneService(ZoneRepository zoneRepository, SessionRepository sessionRepository) {
@@ -69,7 +69,7 @@ public class ZoneService {
         sessionRepository.deleteAll(parkingSessions);
         zoneRepository.deleteById(id);
 
-        File file = new File(uploadDir + id + ".jpg");
+        File file = new File(new File(uploadDir), id + ".jpg");
         if (file.exists()){
             file.delete();
         }
@@ -93,7 +93,7 @@ public class ZoneService {
     }
 
     public byte[] getImage(UUID id) throws IOException{
-        File file = new File(uploadDir + id + ".jpg");
+        File file = new File(new File(uploadDir), id + ".jpg");
         if (!file.exists()){
             throw new RuntimeException("Image not found");
         }
