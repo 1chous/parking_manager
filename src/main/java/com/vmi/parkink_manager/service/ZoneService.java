@@ -6,6 +6,7 @@ import com.vmi.parkink_manager.repository.SessionRepository;
 import com.vmi.parkink_manager.repository.ZoneRepository;
 import com.vmi.parkink_manager.model.ParkZone;
 import jakarta.transaction.Transactional;
+import jakarta.xml.bind.ValidationException;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -38,11 +39,14 @@ public class ZoneService {
     public ParkZone zoneCreate(ZoneCreateDto dto){
         ParkZone parkZone = new ParkZone();
         parkZone.setId(UUID.randomUUID());
+        if (dto.getName() == null) {
+            throw new IllegalArgumentException("Ошибка валидации параметров запроса.");
+        }
         parkZone.setName(dto.getName());
+
         parkZone.setCapacity(dto.getCapacity());
         parkZone.setCost(dto.getCost());
         parkZone.setImageUrl("/api/v1/zones/" + parkZone.getId() + "/image");
-
         zoneRepository.save(parkZone);
         return parkZone;
     }
@@ -80,7 +84,6 @@ public class ZoneService {
         }
 
         File file = new File(dir, id + ".jpg");
-
         try (FileOutputStream fos = new FileOutputStream(file)){
             fos.write(image);
         }
