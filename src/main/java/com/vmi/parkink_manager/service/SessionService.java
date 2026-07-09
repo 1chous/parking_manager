@@ -1,5 +1,6 @@
 package com.vmi.parkink_manager.service;
 
+import com.vmi.parkink_manager.dto.ParkingSessionDto;
 import com.vmi.parkink_manager.dto.SessionCreateDto;
 import com.vmi.parkink_manager.dto.SessionUpdateDto;
 import com.vmi.parkink_manager.exception.NotFoundException;
@@ -66,8 +67,19 @@ public class SessionService {
                 new NotFoundException("Session not found"));
     }
 
-    public List<ParkingSession> findByParkingZoneId(UUID zoneId) {
-        return sessionRepository.findByParkingZoneId(zoneId);
+    public List<ParkingSessionDto> findByParkingZoneId(UUID zoneId) {
+        List<ParkingSession> sessions = sessionRepository.findByParkingZoneId(zoneId);
+
+        return sessions.stream().map(session -> {
+            ParkingSessionDto dto = new ParkingSessionDto();
+            dto.setId(session.getId());
+            dto.setParkingZoneId(session.getParkingZone().getId());
+            dto.setVehiclePlate(session.getVehiclePlate());
+            dto.setEntryTime(session.getEntryTime());
+            dto.setExitTime(session.getExitTime());
+            dto.setIsPayed(session.getIsPaid());
+            return dto;
+        }).toList();
     }
 
     public ParkingSession update(UUID id, SessionUpdateDto dto) {
