@@ -78,7 +78,7 @@ public class SessionService {
         return sessions.stream().map(session -> {
             ParkingSessionDto dto = new ParkingSessionDto();
             dto.setId(session.getId());
-            dto.setParkingZoneId(session.getParkingZone().getId());
+            dto.setParkingZoneId(zoneId);
             dto.setVehiclePlate(session.getVehiclePlate());
             dto.setEntryTime(session.getEntryTime());
             dto.setExitTime(session.getExitTime());
