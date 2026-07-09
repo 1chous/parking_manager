@@ -17,8 +17,8 @@ services:
     deploy:
       resources:
         limits:
-          memory: 1G
-          cpus: "2.0"
+          memory: 1500M
+          cpus: "3.0"
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 10s
@@ -56,8 +56,8 @@ services:
     deploy:
       resources:
         limits:
-          memory: 3G
-          cpus: "4.0"
+          memory: 3500M
+          cpus: "5.0"
     healthcheck:
       test: ["CMD-SHELL", "wget -q --spider http://localhost:8080/actuator/health || exit 1"]
       interval: 10s
@@ -86,7 +86,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 1G
+          memory: 256M
           cpus: "0.5"
     logging:
       driver: json-file
@@ -94,28 +94,28 @@ services:
         max-size: "10m"
         max-file: "3"
 
-  db-backup:
-    image: postgres:16-alpine
-    restart: unless-stopped
-    depends_on:
-      db:
-        condition: service_healthy
-    volumes:
-      - ./backups:/backups
-    environment:
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-    entrypoint: >
-      sh -c "while true; do
-        PGPASSWORD=$$POSTGRES_PASSWORD pg_dump -h db -U postgres postgres |
-        gzip > /backups/backup_$$(date +%Y%m%d_%H%M%S).sql.gz;
-        find /backups -mtime +7 -delete;
-        sleep 86400;
-      done"
-    deploy:
-      resources:
-        limits:
-          memory: 128M
-          cpus: "0.2"
+#  db-backup:
+#    image: postgres:16-alpine
+#    restart: unless-stopped
+#    depends_on:
+#      db:
+#        condition: service_healthy
+#    volumes:
+#      - ./backups:/backups
+#    environment:
+#      POSTGRES_PASSWORD: ${DB_PASSWORD}
+#    entrypoint: >
+#      sh -c "while true; do
+#        PGPASSWORD=$$POSTGRES_PASSWORD pg_dump -h db -U postgres postgres |
+#        gzip > /backups/backup_$$(date +%Y%m%d_%H%M%S).sql.gz;
+#        find /backups -mtime +7 -delete;
+#        sleep 86400;
+#      done"
+#    deploy:
+#      resources:
+#        limits:
+#          memory: 256M
+#          cpus: "0.5"
 
 volumes:
   pgdata:
