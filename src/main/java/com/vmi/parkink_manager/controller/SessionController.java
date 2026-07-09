@@ -1,6 +1,7 @@
 package com.vmi.parkink_manager.controller;
 
 import com.vmi.parkink_manager.dto.FullParkingSessionDto;
+import com.vmi.parkink_manager.dto.ParkingSessionDto;
 import com.vmi.parkink_manager.dto.SessionCreateDto;
 import com.vmi.parkink_manager.dto.SessionUpdateDto;
 import com.vmi.parkink_manager.model.ParkingSession;
@@ -24,17 +25,14 @@ public class SessionController {
     public ResponseEntity<FullParkingSessionDto> create(
             @RequestBody SessionCreateDto dto
     ) {
-        ParkingSession session = sessionService.newEntry(dto);
-        ParkingSessionDto responseDto = ParkingSessionDto.fromEntity(session);
-        return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
+        return new ResponseEntity<>(sessionService.newEntry(dto), HttpStatus.CREATED);
     }
 
     @GetMapping("/{session_id}")
     public ResponseEntity<FullParkingSessionDto> getById(
             @PathVariable("session_id") UUID id
-            ){
-        ParkingSession session = sessionService.getById(id);
-        return ResponseEntity.ok(ParkingSessionDto.fromEntity(session));
+    ){
+        return ResponseEntity.ok(sessionService.getById(id));
     }
 
     @PutMapping("/{session_id}")
