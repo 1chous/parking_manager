@@ -11,7 +11,7 @@ CREATE TABLE parking_session (
     vehicle_plate text not null,
     entry_time timestamp not null,
     exit_time timestamp,
-    is_payed bool not null
+    is_paid bool not null
 );
 
 /* шаблон для второй таблицы

@@ -34,7 +34,7 @@ public class SessionService {
         session.setParkingZone(zone);
         session.setVehiclePlate(dto.getVehiclePlate());
         session.setEntryTime(LocalDateTime.now());
-        session.setIsPayed(false);
+        session.setIsPaid(false);
         sessionRepository.save(session);
         return session;
     }
@@ -54,7 +54,7 @@ public class SessionService {
         // логика оплаты счета
         // по идее то что сессия оплачена надо сделать в другом методе,
         // но пока наверное норм
-        session.setIsPayed(true);
+        session.setIsPaid(true);
 
         sessionRepository.save(session);
         // save bill
@@ -74,11 +74,12 @@ public class SessionService {
         ParkingSession parkingSession = sessionRepository.findById(id).orElseThrow(
                 () -> new NotFoundException("Парковочная сессия не найдена.")
         );
-
-        if (dto.getIsPaid() && !parkingSession.getIsPayed()) {
+        if (dto.getExitTime() != null) {
             parkingSession.setExitTime(dto.getExitTime());
         }
-        parkingSession.setIsPayed(dto.getIsPaid());
+        if (dto.getIsPaid() != null) {
+            parkingSession.setIsPaid(dto.getIsPaid());
+        }
         if (dto.getVehiclePlate() != null) {
             parkingSession.setVehiclePlate(dto.getVehiclePlate());
         }

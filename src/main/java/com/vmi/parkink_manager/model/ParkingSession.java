@@ -23,7 +23,7 @@ public class ParkingSession {
     private LocalDateTime exitTime;
 
     @Column(nullable = false)
-    private Boolean isPayed = false;
+    private Boolean isPaid = false;
 
     public UUID getId() {
         return id;
@@ -65,11 +65,11 @@ public class ParkingSession {
         this.exitTime = exitTime;
     }
 
-    public Boolean getIsPayed() {
-        return isPayed;
+    public Boolean getIsPaid() {
+        return isPaid;
     }
 
-    public void setIsPayed(Boolean isPayed) {
-        this.isPayed = isPayed;
+    public void setIsPaid(Boolean isPaid) {
+        this.isPaid = isPaid;
     }
 }

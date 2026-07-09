@@ -19,7 +19,7 @@ public interface SessionRepository extends JpaRepository<ParkingSession, UUID> {
             "COUNT(s.id) as totalSessions, " +
             "COALESCE((COUNT(CASE WHEN s.exit_time IS NULL THEN 1 END) * 100.0 / NULLIF(z.capacity, 0)), 0) as averageOccupancyPercentage, " +
             "COALESCE(AVG(EXTRACT(EPOCH FROM (s.exit_time - s.entry_time)) / 60.0), 0) as averageDurationMinutes, " +
-            "COALESCE(SUM(CASE WHEN s.is_payed = true THEN (CEIL(EXTRACT(EPOCH FROM (s.exit_time - s.entry_time)) / 3600.0) * z.cost) ELSE 0 END), 0) as totalRevenue " +
+            "COALESCE(SUM(CASE WHEN s.is_paid = true THEN (CEIL(EXTRACT(EPOCH FROM (s.exit_time - s.entry_time)) / 3600.0) * z.cost) ELSE 0 END), 0) as totalRevenue " +
             "FROM park_zone z " +
             "LEFT JOIN parking_session s ON s.parkingzone_id = z.id " +
             "GROUP BY z.id, z.name, z.capacity",
