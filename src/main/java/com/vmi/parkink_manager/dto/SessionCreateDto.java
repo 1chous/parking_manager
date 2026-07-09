@@ -1,17 +1,16 @@
 package com.vmi.parkink_manager.dto;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class SessionCreateDto {
     private UUID parkingZoneId;
     private String vehiclePlate;
 
-    public UUID getParkingZone() {
+    public UUID getParkingZoneId() {
         return parkingZoneId;
     }
 
-    public void setParkingZone(UUID parkingZone) {
+    public void setParkingZoneId(UUID parkingZone) {
         this.parkingZoneId = parkingZone;
     }
 
