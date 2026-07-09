@@ -1,5 +1,6 @@
 package com.vmi.parkink_manager.dto;
 
+import com.vmi.parkink_manager.model.ParkingSession;
 import lombok.Getter;
 import lombok.Setter;
 import java.time.LocalDateTime;
@@ -14,4 +15,28 @@ public class ParkingSessionDto {
     private LocalDateTime entryTime;
     private LocalDateTime exitTime;
     private Boolean isPayed;
+
+    public ParkingSessionDto(UUID id, UUID parkingZoneId, String vehiclePlate,
+                             LocalDateTime entryTime, LocalDateTime exitTime, Boolean isPayed) {
+        this.id = id;
+        this.parkingZoneId = parkingZoneId;
+        this.vehiclePlate = vehiclePlate;
+        this.entryTime = entryTime;
+        this.exitTime = exitTime;
+        this.isPayed = isPayed;
+    }
+
+    public ParkingSessionDto() {
+    }
+
+    public static ParkingSessionDto fromEntity(ParkingSession session) {
+        ParkingSessionDto dto = new ParkingSessionDto();
+        dto.setId(session.getId());
+        dto.setParkingZoneId(session.getParkingZone().getId());
+        dto.setVehiclePlate(session.getVehiclePlate());
+        dto.setEntryTime(session.getEntryTime());
+        dto.setExitTime(session.getExitTime());
+        dto.setIsPayed(session.getIsPaid());
+        return dto;
+    }
 }
