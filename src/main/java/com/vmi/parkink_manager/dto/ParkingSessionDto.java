@@ -16,6 +16,19 @@ public class ParkingSessionDto {
     private LocalDateTime exitTime;
     private Boolean isPayed;
 
+    public ParkingSessionDto(UUID id, UUID parkingZoneId, String vehiclePlate,
+                             LocalDateTime entryTime, LocalDateTime exitTime, Boolean isPayed) {
+        this.id = id;
+        this.parkingZoneId = parkingZoneId;
+        this.vehiclePlate = vehiclePlate;
+        this.entryTime = entryTime;
+        this.exitTime = exitTime;
+        this.isPayed = isPayed;
+    }
+
+    public ParkingSessionDto() {
+    }
+
     public static ParkingSessionDto fromEntity(ParkingSession session) {
         ParkingSessionDto dto = new ParkingSessionDto();
         dto.setId(session.getId());
