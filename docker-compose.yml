@@ -17,8 +17,8 @@ services:
     deploy:
       resources:
         limits:
-          memory: 1500M
-          cpus: "3.0"
+          memory: 1G
+          cpus: "2.0"
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 10s
@@ -56,8 +56,8 @@ services:
     deploy:
       resources:
         limits:
-          memory: 3500M
-          cpus: "5.0"
+          memory: 3G
+          cpus: "4.0"
     healthcheck:
       test: ["CMD-SHELL", "wget -q --spider http://localhost:8080/actuator/health || exit 1"]
       interval: 10s
@@ -86,7 +86,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 256M
+          memory: 1G
           cpus: "0.5"
     logging:
       driver: json-file
