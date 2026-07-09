@@ -24,26 +24,22 @@ public class SessionController {
     public ResponseEntity<FullParkingSessionDto> create(
             @RequestBody SessionCreateDto dto
     ) {
-        ParkingSession session = sessionService.newEntry(dto);
-        ParkingSessionDto responseDto = ParkingSessionDto.fromEntity(session);
-        return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
+        return new ResponseEntity<>(sessionService.newEntry(dto), HttpStatus.CREATED);
     }
 
     @GetMapping("/{session_id}")
     public ResponseEntity<FullParkingSessionDto> getById(
             @PathVariable("session_id") UUID id
             ){
-        ParkingSession session = sessionService.getById(id);
-        return ResponseEntity.ok(ParkingSessionDto.fromEntity(session));
+        return ResponseEntity.ok(sessionService.getById(id));
     }
 
     @PutMapping("/{session_id}")
-    public ResponseEntity<ParkingSessionDto> update(
+    public ResponseEntity<ParkingSession> update(
             @PathVariable("session_id") UUID id,
             @RequestBody SessionUpdateDto dto
             ) {
-        ParkingSession session = sessionService.update(id, dto);
-        return ResponseEntity.ok(ParkingSessionDto.fromEntity(session));
+        return ResponseEntity.ok(sessionService.update(id, dto));
     }
 
     @DeleteMapping("/{session_id}")
