@@ -38,9 +38,9 @@ public class AnalyticsService {
 //            List<ParkingSession> required = new ArrayList<>();
 //            long totalDurationMinutes = 0;
 //            for (ParkingSession session: allSessions) {
-//                // session.getParkingZone() != null
+//                // session.getParkingZoneId() != null
 //                // вроде бы у нас уже стоит в orm, что это поле не null
-//                if (session.getParkingZone().getId().equals(zone.getId())) {
+//                if (session.getParkingZoneId().getId().equals(zone.getId())) {
 //                    required.add(session);
 //                    if (session.getIsPayed()) {
 //                        long delta = Duration.between(session.getEntryTime(), session.getExitTime()).toMinutes();
@@ -75,7 +75,7 @@ public class AnalyticsService {
 //            throw new RuntimeException("Unrealistic exit/entry time");
 //        }
 //        long hours = (long) Math.ceil((double) deltaInMinutes / 60.0);
-//        return hours * session.getParkingZone().getCost();
+//        return hours * session.getParkingZoneId().getCost();
 //    }
 
     @Transactional(readOnly = true)

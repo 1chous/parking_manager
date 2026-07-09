@@ -24,7 +24,7 @@ public class SessionService {
     }
 
     public ParkingSession newEntry(SessionCreateDto dto){
-        ParkZone zone = zoneRepository.findById(dto.getParkingZone()).orElseThrow(() -> new NotFoundException("Zone not found"));
+        ParkZone zone = zoneRepository.findById(dto.getParkingZoneId()).orElseThrow(() -> new NotFoundException("Zone not found"));
         int activeSessions = sessionRepository.countActiveSessionsByZoneId(zone.getId());
         if (activeSessions >= zone.getCapacity()){
             throw new RuntimeException("Zone is full");
