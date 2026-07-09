@@ -1,7 +1,5 @@
 package com.vmi.parkink_manager.dto;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -1,9 +1,6 @@
 package com.vmi.parkink_manager.controller;
 
-import com.vmi.parkink_manager.dto.FullParkingSessionDto;
-import com.vmi.parkink_manager.dto.ParkingSessionDto;
-import com.vmi.parkink_manager.dto.SessionCreateDto;
-import com.vmi.parkink_manager.dto.SessionUpdateDto;
+import com.vmi.parkink_manager.dto.*;
 import com.vmi.parkink_manager.model.ParkingSession;
 import com.vmi.parkink_manager.service.SessionService;
 import org.springframework.http.HttpStatus;
@@ -31,7 +28,7 @@ public class SessionController {
     @GetMapping("/{session_id}")
     public ResponseEntity<FullParkingSessionDto> getById(
             @PathVariable("session_id") UUID id
-    ){
+            ){
         return ResponseEntity.ok(sessionService.getById(id));
     }
 
@@ -39,7 +36,7 @@ public class SessionController {
     public ResponseEntity<ParkingSession> update(
             @PathVariable("session_id") UUID id,
             @RequestBody SessionUpdateDto dto
-    ) {
+            ) {
         return ResponseEntity.ok(sessionService.update(id, dto));
     }
 
