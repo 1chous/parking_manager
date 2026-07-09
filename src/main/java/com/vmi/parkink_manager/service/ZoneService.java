@@ -1,12 +1,12 @@
 package com.vmi.parkink_manager.service;
 
 import com.vmi.parkink_manager.dto.ZoneCreateDto;
+import com.vmi.parkink_manager.exception.NotFoundException;
 import com.vmi.parkink_manager.model.ParkingSession;
 import com.vmi.parkink_manager.repository.SessionRepository;
 import com.vmi.parkink_manager.repository.ZoneRepository;
 import com.vmi.parkink_manager.model.ParkZone;
 import jakarta.transaction.Transactional;
-import jakarta.xml.bind.ValidationException;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -33,7 +33,7 @@ public class ZoneService {
     }
 
     public ParkZone getById(UUID id){
-        return zoneRepository.findById(id).orElseThrow(() -> new RuntimeException("Zone not founded"));
+        return zoneRepository.findById(id).orElseThrow(() -> new NotFoundException("Zone not found"));
     }
 
     public ParkZone zoneCreate(ZoneCreateDto dto){
@@ -93,7 +93,7 @@ public class ZoneService {
     public byte[] getImage(UUID id) throws IOException{
         File file = new File(new File(uploadDir), id + ".jpg");
         if (!file.exists()){
-            throw new RuntimeException("Image not found");
+            throw new NotFoundException("Image not found");
         }
         return Files.readAllBytes(file.toPath());
     }

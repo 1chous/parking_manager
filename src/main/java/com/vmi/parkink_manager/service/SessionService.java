@@ -2,13 +2,13 @@ package com.vmi.parkink_manager.service;
 
 import com.vmi.parkink_manager.dto.SessionCreateDto;
 import com.vmi.parkink_manager.dto.SessionUpdateDto;
+import com.vmi.parkink_manager.exception.NotFoundException;
 import com.vmi.parkink_manager.model.ParkZone;
 import com.vmi.parkink_manager.model.ParkingSession;
 import com.vmi.parkink_manager.repository.SessionRepository;
 import com.vmi.parkink_manager.repository.ZoneRepository;
 import org.springframework.stereotype.Service;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -24,7 +24,7 @@ public class SessionService {
     }
 
     public ParkingSession newEntry(SessionCreateDto dto){
-        ParkZone zone = zoneRepository.findById(dto.getParkingZone()).orElseThrow(() -> new RuntimeException("Zone not found"));
+        ParkZone zone = zoneRepository.findById(dto.getParkingZone()).orElseThrow(() -> new NotFoundException("Zone not found"));
         int activeSessions = sessionRepository.countActiveSessionsByZoneId(zone.getId());
         if (activeSessions >= zone.getCapacity()){
             throw new RuntimeException("Zone is full");
@@ -43,7 +43,7 @@ public class SessionService {
     {
         List<ParkingSession> activeSessions = sessionRepository.findActiveByVehiclePlate(vehiclePlate);
         if (activeSessions.isEmpty()){
-            throw new RuntimeException("Vehicle not found");
+            throw new NotFoundException("Vehicle not found");
         }
         ParkingSession session = activeSessions.get(0);
         session.setExitTime(LocalDateTime.now());
@@ -63,7 +63,7 @@ public class SessionService {
 
     public ParkingSession getById(UUID id) {
         return sessionRepository.findById(id).orElseThrow(() ->
-                new RuntimeException("Некорректные параметры или неверный zone_id."));
+                new NotFoundException("Session not found"));
     }
 
     public List<ParkingSession> findByParkingZoneId(UUID zoneId) {
@@ -72,7 +72,7 @@ public class SessionService {
 
     public ParkingSession update(UUID id, SessionUpdateDto dto) {
         ParkingSession parkingSession = sessionRepository.findById(id).orElseThrow(
-                () -> new RuntimeException("Парковочная сессия не найдена.")
+                () -> new NotFoundException("Парковочная сессия не найдена.")
         );
 
         if (dto.getIsPaid() && !parkingSession.getIsPayed()) {

@@ -1,18 +1,15 @@
 package com.vmi.parkink_manager.exception;
 
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import tools.jackson.databind.ObjectMapper;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 @RestControllerAdvice
-public class GlobaExceptionHandler {
+public class GlobalExceptionHandler {
 
     // runtime
     @ExceptionHandler(RuntimeException.class)
