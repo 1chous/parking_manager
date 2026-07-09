@@ -8,6 +8,7 @@ import com.vmi.parkink_manager.repository.SessionRepository;
 import com.vmi.parkink_manager.repository.ZoneRepository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -73,18 +74,7 @@ public class SessionService {
 
     @Transactional(readOnly = true)
     public List<ParkingSessionDto> findByParkingZoneId(UUID zoneId) {
-        List<ParkingSession> sessions = sessionRepository.findByParkingZoneId(zoneId);
-
-        return sessions.stream().map(session -> {
-            ParkingSessionDto dto = new ParkingSessionDto();
-            dto.setId(session.getId());
-            dto.setParkingZoneId(session.getParkingZone().getId());
-            dto.setVehiclePlate(session.getVehiclePlate());
-            dto.setEntryTime(session.getEntryTime());
-            dto.setExitTime(session.getExitTime());
-            dto.setIsPayed(session.getIsPaid());
-            return dto;
-        }).toList();
+        return sessionRepository.findDtoByParkingZoneId(zoneId);
     }
 
 
