@@ -1,13 +1,12 @@
 package com.vmi.parkink_manager.service;
 
-import com.vmi.parkink_manager.dto.ParkingSessionDto;
-import com.vmi.parkink_manager.dto.SessionCreateDto;
-import com.vmi.parkink_manager.dto.SessionUpdateDto;
+import com.vmi.parkink_manager.dto.*;
 import com.vmi.parkink_manager.exception.NotFoundException;
 import com.vmi.parkink_manager.model.ParkZone;
 import com.vmi.parkink_manager.model.ParkingSession;
 import com.vmi.parkink_manager.repository.SessionRepository;
 import com.vmi.parkink_manager.repository.ZoneRepository;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -15,6 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
+@Transactional
 public class SessionService {
     private final SessionRepository sessionRepository;
     private final ZoneRepository zoneRepository;
@@ -24,7 +24,7 @@ public class SessionService {
         this.zoneRepository = zoneRepository;
     }
 
-    public ParkingSession newEntry(SessionCreateDto dto){
+    public FullParkingSessionDto newEntry(SessionCreateDto dto){
         ParkZone zone = zoneRepository.findById(dto.getParkingZoneId()).orElseThrow(() -> new NotFoundException("Zone not found"));
         int activeSessions = sessionRepository.countActiveSessionsByZoneId(zone.getId());
         if (activeSessions >= zone.getCapacity()){
@@ -36,37 +36,42 @@ public class SessionService {
         session.setVehiclePlate(dto.getVehiclePlate());
         session.setEntryTime(LocalDateTime.now());
         session.setIsPaid(false);
-        sessionRepository.save(session);
-        return session;
+        ParkingSession saved = sessionRepository.save(session);
+        return toDto(saved);
     }
 
-    public ParkingSession exit(String vehiclePlate)
-    {
-        List<ParkingSession> activeSessions = sessionRepository.findActiveByVehiclePlate(vehiclePlate);
-        if (activeSessions.isEmpty()){
-            throw new NotFoundException("Vehicle not found");
-        }
-        ParkingSession session = activeSessions.get(0);
-        session.setExitTime(LocalDateTime.now());
 
+    private FullZoneDto toZoneDto(ParkZone zone) {
 
-        // PaymentBill bill = new PaymentBill();
-        // bill.setTotal_cost(totalCost);
-        // логика оплаты счета
-        // по идее то что сессия оплачена надо сделать в другом методе,
-        // но пока наверное норм
-        session.setIsPaid(true);
+        FullZoneDto dto = new FullZoneDto();
 
-        sessionRepository.save(session);
-        // save bill
-        return session;
+        dto.setId(zone.getId());
+        dto.setName(zone.getName());
+        dto.setCapacity(zone.getCapacity());
+        dto.setCost(zone.getCost());
+        dto.setImageUrl(zone.getImageUrl());
+        return dto;
+    }
+    private FullParkingSessionDto toDto(ParkingSession session) {
+        FullParkingSessionDto dto = new FullParkingSessionDto();
+        dto.setId(session.getId());
+        dto.setParkingZone(toZoneDto(session.getParkingZone()));
+        dto.setVehiclePlate(session.getVehiclePlate());
+        dto.setEntryTime(session.getEntryTime());
+        dto.setExitTime(session.getExitTime());
+        dto.setIsPaid(session.getIsPaid());
+
+        return dto;
     }
 
-    public ParkingSession getById(UUID id) {
-        return sessionRepository.findById(id).orElseThrow(() ->
+    @Transactional(readOnly = true)
+    public FullParkingSessionDto getById(UUID id) {
+        ParkingSession s =  sessionRepository.findById(id).orElseThrow(() ->
                 new NotFoundException("Session not found"));
+        return toDto(s);
     }
 
+    @Transactional(readOnly = true)
     public List<ParkingSessionDto> findByParkingZoneId(UUID zoneId) {
         List<ParkingSession> sessions = sessionRepository.findByParkingZoneId(zoneId);
 
@@ -81,6 +86,7 @@ public class SessionService {
             return dto;
         }).toList();
     }
+
 
     public ParkingSession update(UUID id, SessionUpdateDto dto) {
         ParkingSession parkingSession = sessionRepository.findById(id).orElseThrow(
@@ -100,9 +106,5 @@ public class SessionService {
 
     public void delete(UUID id) {
         sessionRepository.deleteById(id);
-    }
-
-    public List<ParkingSession> getAll() {
-        return sessionRepository.findAll();
     }
 }
