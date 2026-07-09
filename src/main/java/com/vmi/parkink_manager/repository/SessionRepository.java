@@ -1,5 +1,6 @@
 package com.vmi.parkink_manager.repository;
 
+import com.vmi.parkink_manager.dto.ParkingSessionDto;
 import com.vmi.parkink_manager.model.ParkingSession;
 import org.jspecify.annotations.NonNull;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -36,4 +37,7 @@ public interface SessionRepository extends JpaRepository<ParkingSession, UUID> {
     List<ParkingSession> findActiveByVehiclePlate(@Param("plate") String vehiclePlate);
 
     List<ParkingSession> findByParkingZoneId(UUID parkingZoneId);
+
+    @Query("SELECT new com.vmi.parkink_manager.dto.ParkingSessionDto(s.id, s.parkingZone.id, s.vehiclePlate, s.entryTime, s.exitTime, s.isPaid) FROM ParkingSession s WHERE s.parkingZone.id = :zoneId")
+    List<ParkingSessionDto> findDtoByParkingZoneId(@Param("zoneId") UUID zoneId);
 }
