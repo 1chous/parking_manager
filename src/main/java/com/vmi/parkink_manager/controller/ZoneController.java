@@ -1,5 +1,6 @@
 package com.vmi.parkink_manager.controller;
 
+import com.vmi.parkink_manager.dto.ParkingSessionDto;
 import com.vmi.parkink_manager.dto.ZoneCreateDto;
 import com.vmi.parkink_manager.model.ParkZone;
 import com.vmi.parkink_manager.model.ParkingSession;
@@ -67,7 +68,7 @@ public class ZoneController {
     }
 
     @GetMapping("/{zone_id}/sessions")
-    public ResponseEntity<List<ParkingSession>> findParkingSessions(@PathVariable("zone_id") UUID id) {
+    public ResponseEntity<List<ParkingSessionDto>> findParkingSessions(@PathVariable("zone_id") UUID id) {
         return ResponseEntity.ok(sessionService.findByParkingZoneId(id));
     }
 }
