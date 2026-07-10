@@ -6,7 +6,7 @@ import com.vmi.parkink_manager.model.ParkingSession;
 import com.vmi.parkink_manager.repository.SessionRepository;
 import com.vmi.parkink_manager.repository.ZoneRepository;
 import com.vmi.parkink_manager.model.ParkZone;
-import org.springframework.transaction.annotation.Transactional;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-@Transactional
 public class ZoneService {
     private final ZoneRepository zoneRepository;
     private final SessionRepository sessionRepository;
@@ -29,12 +28,10 @@ public class ZoneService {
         this.sessionRepository = sessionRepository;
     }
 
-    @Transactional(readOnly = true)
     public List<ParkZone> getAll(){
         return zoneRepository.findAll();
     }
 
-    @Transactional(readOnly = true)
     public ParkZone getById(UUID id){
         return zoneRepository.findById(id).orElseThrow(() -> new NotFoundException("Zone not found"));
     }
@@ -64,6 +61,7 @@ public class ZoneService {
         return parkZone;
     }
 
+    @Transactional
     public void deleteZone(UUID id){
         List<ParkingSession> parkingSessions = sessionRepository.findByParkingZoneId(id);
         sessionRepository.deleteAll(parkingSessions);
@@ -92,7 +90,6 @@ public class ZoneService {
         zoneRepository.save(parkZone);
     }
 
-    @Transactional(readOnly = true)
     public byte[] getImage(UUID id) throws IOException{
         File file = new File(new File(uploadDir), id + ".jpg");
         if (!file.exists()){
