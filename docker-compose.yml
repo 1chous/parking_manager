@@ -94,28 +94,28 @@ services:
         max-size: "10m"
         max-file: "3"
 
-#  db-backup:
-#    image: postgres:16-alpine
-#    restart: unless-stopped
-#    depends_on:
-#      db:
-#        condition: service_healthy
-#    volumes:
-#      - ./backups:/backups
-#    environment:
-#      POSTGRES_PASSWORD: ${DB_PASSWORD}
-#    entrypoint: >
-#      sh -c "while true; do
-#        PGPASSWORD=$$POSTGRES_PASSWORD pg_dump -h db -U postgres postgres |
-#        gzip > /backups/backup_$$(date +%Y%m%d_%H%M%S).sql.gz;
-#        find /backups -mtime +7 -delete;
-#        sleep 86400;
-#      done"
-#    deploy:
-#      resources:
-#        limits:
-#          memory: 256M
-#          cpus: "0.5"
+  db-backup:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./backups:/backups
+    environment:
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    entrypoint: >
+      sh -c "while true; do
+        PGPASSWORD=$$POSTGRES_PASSWORD pg_dump -h db -U postgres postgres |
+        gzip > /backups/backup_$$(date +%Y%m%d_%H%M%S).sql.gz;
+        find /backups -mtime +7 -delete;
+        sleep 86400;
+      done"
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+          cpus: "0.5"
 
 volumes:
   pgdata:
