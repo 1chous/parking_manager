@@ -6,8 +6,7 @@ import com.vmi.parkink_manager.model.ParkZone;
 import com.vmi.parkink_manager.model.ParkingSession;
 import com.vmi.parkink_manager.repository.SessionRepository;
 import com.vmi.parkink_manager.repository.ZoneRepository;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Service;import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -36,10 +35,8 @@ public class SessionService {
         session.setVehiclePlate(dto.getVehiclePlate());
         session.setEntryTime(LocalDateTime.now());
         session.setIsPaid(false);
-        ParkingSession saved = sessionRepository.save(session);
-        return toDto(saved);
+        return toDto(sessionRepository.save(session));
     }
-
 
     private FullZoneDto toZoneDto(ParkZone zone) {
 
@@ -60,9 +57,9 @@ public class SessionService {
         dto.setEntryTime(session.getEntryTime());
         dto.setExitTime(session.getExitTime());
         dto.setIsPaid(session.getIsPaid());
-
         return dto;
     }
+
 
     @Transactional(readOnly = true)
     public FullParkingSessionDto getById(UUID id) {
@@ -78,7 +75,7 @@ public class SessionService {
         return sessions.stream().map(session -> {
             ParkingSessionDto dto = new ParkingSessionDto();
             dto.setId(session.getId());
-            dto.setParkingZoneId(session.getParkingZone().getId());
+            dto.setParkingZoneId(zoneId);
             dto.setVehiclePlate(session.getVehiclePlate());
             dto.setEntryTime(session.getEntryTime());
             dto.setExitTime(session.getExitTime());
@@ -86,7 +83,6 @@ public class SessionService {
             return dto;
         }).toList();
     }
-
 
     public ParkingSession update(UUID id, SessionUpdateDto dto) {
         ParkingSession parkingSession = sessionRepository.findById(id).orElseThrow(
@@ -106,5 +102,9 @@ public class SessionService {
 
     public void delete(UUID id) {
         sessionRepository.deleteById(id);
+    }
+
+    public List<ParkingSession> getAll() {
+        return sessionRepository.findAll();
     }
 }
