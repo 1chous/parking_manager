@@ -14,16 +14,3 @@ CREATE TABLE parking_session (
     is_paid bool not null
 );
 
-/* шаблон для второй таблицы
-CREATE TABLE todo_items (
-id UUID PRIMARY KEY,
-category_id UUID NOT NULL,
-title VARCHAR(255) NOT NULL,
-description TEXT,
-priority VARCHAR(50) NOT NULL,
-deadline_at TIMESTAMP,
-is_completed BOOLEAN NOT NULL,
-created_at TIMESTAMP,
-completed_at TIMESTAMP,
-CONSTRAINT fk_todo_category FOREIGN KEY (category_id) REFERENCES task_categories(id)
-);*/
